@@ -11,11 +11,52 @@
 var tableData = data;
 console.log(tableData);
 
-// Select the button, form
+// Select the button, form and tbody
 var button = d3.select("#filter-btn");
 var form = d3.select("#form");
+var tbody = d3.select("tbody");
 
-// create event handlers
+
+// Create event handlers
 button.on("click", runEnter);
 form.on("submit", runEnter);
 
+
+// Add data to table
+function fillTable() {
+    tableData.forEach((rowData) => { 
+      
+       let row = tbody.append("tr");
+         Object.values(rowData).forEach((value) => {
+           let cell = row.append("td");
+           cell.text(value);
+             });
+           })
+         };
+   
+   
+   
+//Complete event handler
+function runEnter() {
+    //prevent page from refreshing
+    d3.event.preventDefault();
+    //select input from datetime entry
+    var inputElement = d3.select("#datetime");
+    var inputValue = inputElement.property("value");
+    //filter data
+    var filteredData = tableData.filter(tableData => tableData.datetime === inputValue); 
+    //clear table for next filter
+    tbody.html("");
+    //console.log(filteredData);
+//put filtered data into the table  
+    filteredData.forEach((rowData) => { 
+    
+    let row = tbody.append("tr");
+        Object.values(rowData).forEach((value) => {
+        let cell = row.append("td");
+        cell.text(value);
+            });
+        })
+        
+};
+fillTable();
